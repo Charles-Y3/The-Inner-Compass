@@ -39,7 +39,8 @@ const COMPASS_POS: Record<BearingId, { x: number; y: number }> = {
   wood: { x: 0.965, y: 0.5 },
   fire: { x: 0.5, y: 0.965 },
   metal: { x: 0.035, y: 0.5 },
-  earth: { x: 0.5, y: 0.565 },
+  // Lower rim of Qilin medallion; badge is drawn upward from this point
+  earth: { x: 0.5, y: 0.62 },
 };
 
 function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
@@ -208,7 +209,10 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
           const tw = ctx.measureText(label).width;
           const bw = tw + 16;
           const bh = 24;
-          roundRect(ctx, cx - bw / 2, cy - bh / 2, bw, bh, 12);
+          // Earth: hang above the rim (same as CSS translate(-50%, -100%))
+          const topY = b.id === 'earth' ? cy - bh : cy - bh / 2;
+          const midY = topY + bh / 2;
+          roundRect(ctx, cx - bw / 2, topY, bw, bh, 12);
           if (hot) {
             ctx.fillStyle = '#5f4b8b';
             ctx.fill();
@@ -232,7 +236,7 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
           }
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText(label, cx, cy + 0.5);
+          ctx.fillText(label, cx, midY + 0.5);
           ctx.textAlign = 'left';
           ctx.textBaseline = 'alphabetic';
         }

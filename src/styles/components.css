@@ -603,6 +603,11 @@
   z-index: 1;
 }
 
+/* Sit on the lower rim: badge grows up into the medallion, not onto the Phoenix */
+.bearingCompassPoint--earth {
+  transform: translate(-50%, -100%);
+}
+
 .bearingCompassPct {
   font-variant-numeric: tabular-nums;
   font-size: clamp(0.72rem, 2.6vw, 0.9rem);
