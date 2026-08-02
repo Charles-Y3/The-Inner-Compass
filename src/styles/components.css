@@ -675,32 +675,40 @@
   font-family: var(--font-display);
   font-size: var(--step-1);
   color: var(--color-accent);
-  margin-bottom: var(--space-1);
+  line-height: 1.2;
+  margin-bottom: 0;
 }
 
 .animalDetailStack {
   font-size: var(--step--1);
   color: var(--color-ink-faint);
-  margin-bottom: var(--space-3);
+  line-height: 1.3;
+  margin-top: 0.1rem;
+  margin-bottom: 0.15rem;
 }
 
 .animalDetailBlurb {
   color: var(--color-ink-soft);
   font-size: var(--step--1);
   font-style: italic;
-  margin-bottom: var(--space-3);
+  margin-bottom: 0.55rem;
 }
 
 .animalDetailLabel {
   font-size: var(--step--1);
   color: var(--color-ink-faint);
-  margin-bottom: var(--space-1);
+  margin-bottom: 0;
 }
 
 .animalDetailBody {
   color: var(--color-ink);
   font-size: var(--step-0);
-  margin-bottom: var(--space-3);
+  margin-top: 0.1rem;
+  margin-bottom: 0.55rem;
+}
+
+.animalDetailBody--last {
+  margin-bottom: 0;
 }
 
 .heartNoteCard {

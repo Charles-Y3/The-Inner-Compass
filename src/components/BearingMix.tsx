@@ -32,14 +32,14 @@ function AnimalDetail({
           <p className="animalDetailLabel">{t('results_animal_strengths')}</p>
           <p className="animalDetailBody">{L(b.strengths)}</p>
           <p className="animalDetailLabel">{t('results_animal_workOn')}</p>
-          <p className="animalDetailBody">{L(b.toWorkOn)}</p>
+          <p className="animalDetailBody animalDetailBody--last">{L(b.toWorkOn)}</p>
         </>
       ) : (
         <>
           <p className="animalDetailLabel">{t('results_animal_cultivate')}</p>
           <p className="animalDetailBody">{L(b.strengths)}</p>
           <p className="animalDetailLabel">{t('results_animal_whenThin')}</p>
-          <p className="animalDetailBody">{L(b.whenThin)}</p>
+          <p className="animalDetailBody animalDetailBody--last">{L(b.whenThin)}</p>
         </>
       )}
     </div>
