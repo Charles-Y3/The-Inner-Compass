@@ -6,7 +6,7 @@ export function AppLogo() {
   const { t } = useT();
   return (
     <Link to="/" className="logo" aria-label={t('appName')}>
-      <img className="logoIcon" src="/icons/app-logo.png" alt="" width={32} height={32} />
+      <img className="logoIcon" src="/icons/app-logo-alt.png" alt="" width={32} height={32} />
       <span className="logoText">{t('appName')}</span>
     </Link>
   );

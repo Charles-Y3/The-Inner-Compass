@@ -116,7 +116,7 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
   const compassInner = compassOuter - compassPad * 2;
 
   const [logo, compassArt] = await Promise.all([
-    loadImage('/icons/app-logo.png'),
+    loadImage('/icons/app-logo-alt.png'),
     loadImage('/images/five-animals-compass.png'),
   ]);
 
