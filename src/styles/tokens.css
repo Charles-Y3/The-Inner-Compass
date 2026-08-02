@@ -1,0 +1,134 @@
+/* Design tokens — "Reflection" identity: dusk, desaturated violet-grey.
+   Deliberately not the suite's parchment/gold lineage (Atlas / Words of
+   Sages / Little Stories) and not Journey's jade RPG lineage — see
+   CLAUDE.md. Themes switch by setting data-theme on <html>; keys stay
+   light|dark|sepia (mechanism-compatible with the sibling apps) but are
+   labeled Dawn 晨 / Night 夜 / Dusk 暮 in the UI. */
+
+:root {
+  /* -- color: light ("Dawn 晨") -- */
+  --color-bg: #f3f1f8;
+  --color-bg-grad: linear-gradient(160deg, #f7f5fb 0%, #e7e3f0 100%);
+  --color-surface: #fdfcff;
+  --color-surface-alt: #efecf6;
+  --color-border: #d6cfe4;
+  --color-border-strong: #9a8bb8;
+  --color-ink: #241f33;
+  --color-ink-soft: #574f6b;
+  --color-ink-faint: #7b7391;
+  --color-accent: #5f4b8b;
+  --color-accent-strong: #47376a;
+  --color-accent-ink: #f7f4ff;
+  --color-gold: #b8985c;
+  --color-gold-strong: #8e7238;
+  --color-gold-ink: #1b1408;
+  --color-focus: #31757f;
+  --shadow-color: 262 25% 18%;
+  --overlay: rgba(36, 31, 51, 0.5);
+
+  /* -- type -- */
+  --font-zh: "Noto Serif TC", "Noto Serif SC", "PingFang TC", "Songti TC", serif;
+  --font-display: "EB Garamond", var(--font-zh), Georgia, serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, var(--font-zh), sans-serif;
+
+  --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.85rem);
+  --step-0: clamp(0.95rem, 0.9rem + 0.2vw, 1rem);
+  --step-1: clamp(1.1rem, 1.05rem + 0.3vw, 1.2rem);
+  --step-2: clamp(1.3rem, 1.2rem + 0.5vw, 1.5rem);
+  --step-3: clamp(1.7rem, 1.5rem + 0.9vw, 2.1rem);
+  --step-4: clamp(2.4rem, 2rem + 1.8vw, 3.4rem);
+
+  /* -- space -- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  /* -- shape -- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* -- elevation -- */
+  --shadow-sm: 0 1px 3px hsl(var(--shadow-color) / 0.18);
+  --shadow-md: 0 4px 14px hsl(var(--shadow-color) / 0.16);
+  --shadow-lg: 0 12px 32px hsl(var(--shadow-color) / 0.22);
+  --shadow-inset: inset 0 1px 4px hsl(var(--shadow-color) / 0.12);
+
+  /* -- motion -- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-med: 220ms;
+}
+
+:root[data-theme="dark"] {
+  /* "Night 夜" */
+  --color-bg: #141221;
+  --color-bg-grad: linear-gradient(160deg, #191627 0%, #0f0d19 100%);
+  --color-surface: #1e1b2e;
+  --color-surface-alt: #262238;
+  --color-border: #3a3450;
+  --color-border-strong: #574e75;
+  --color-ink: #e8e4f2;
+  --color-ink-soft: #b5aecb;
+  --color-ink-faint: #8d86a3;
+  --color-accent: #a992e0;
+  --color-accent-strong: #c2b0ee;
+  --color-accent-ink: #1a1428;
+  --color-gold: #d6b876;
+  --color-gold-strong: #ecd7a1;
+  --color-focus: #6fc3cd;
+  --shadow-color: 260 30% 3%;
+  --overlay: rgba(8, 6, 16, 0.65);
+}
+
+:root[data-theme="sepia"] {
+  /* "Dusk 暮" — warm, low-blue, plum-shifted ink so the violet thread persists */
+  --color-bg: #ecdfd2;
+  --color-bg-grad: linear-gradient(160deg, #f0e5da 0%, #e2d2c2 100%);
+  --color-surface: #f5ebe0;
+  --color-surface-alt: #e8dacb;
+  --color-border: #cbb69f;
+  --color-border-strong: #9c8163;
+  --color-ink: #372c33;
+  --color-ink-soft: #574858;
+  --color-ink-faint: #6d5c6b;
+  --color-accent: #6b4e86;
+  --color-accent-strong: #503a66;
+  --color-accent-ink: #f7f2fb;
+  --color-gold: #a8823f;
+  --color-gold-strong: #7f6129;
+  --color-focus: #2c6b74;
+  --shadow-color: 20 25% 20%;
+  --overlay: rgba(55, 44, 51, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Only a pre-hydration fallback for the brief moment before JS sets an
+     explicit data-theme — must not match once data-theme="sepia" (or
+     anything else) is set, so this checks for the attribute's absence,
+     not merely inequality with "light". */
+  :root:not([data-theme]) {
+    --color-bg: #141221;
+    --color-bg-grad: linear-gradient(160deg, #191627 0%, #0f0d19 100%);
+    --color-surface: #1e1b2e;
+    --color-surface-alt: #262238;
+    --color-border: #3a3450;
+    --color-border-strong: #574e75;
+    --color-ink: #e8e4f2;
+    --color-ink-soft: #b5aecb;
+    --color-ink-faint: #8d86a3;
+    --color-accent: #a992e0;
+    --color-accent-strong: #c2b0ee;
+    --color-accent-ink: #1a1428;
+    --color-gold: #d6b876;
+    --color-gold-strong: #ecd7a1;
+    --color-focus: #6fc3cd;
+    --shadow-color: 260 30% 3%;
+    --overlay: rgba(8, 6, 16, 0.65);
+  }
+}
