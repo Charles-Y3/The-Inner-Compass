@@ -8,12 +8,13 @@ interface BearingCompassProps {
   tendId?: BearingId;
 }
 
-/** N/E/S/W: % of the padded compass box (outer ring). */
+/** N/E/S/W: % of the padded compass box (outer ring, clear of the art). */
 const OUTER_POS: Record<Exclude<BearingId, 'earth'>, { x: number; y: number }> = {
   water: { x: 50, y: 3.5 },
-  wood: { x: 96.5, y: 50 },
+  // Further out than N/S — badges are wider than tall
+  wood: { x: 99, y: 50 },
   fire: { x: 50, y: 96.5 },
-  metal: { x: 3.5, y: 50 },
+  metal: { x: 1, y: 50 },
 };
 
 /**

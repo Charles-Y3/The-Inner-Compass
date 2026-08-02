@@ -36,9 +36,9 @@ export interface ResultsExportPayload {
 /** Outer badges: fraction of the padded compass square (matches CSS). */
 const OUTER_COMPASS_POS: Record<Exclude<BearingId, 'earth'>, { x: number; y: number }> = {
   water: { x: 0.5, y: 0.035 },
-  wood: { x: 0.965, y: 0.5 },
+  wood: { x: 0.99, y: 0.5 },
   fire: { x: 0.5, y: 0.965 },
-  metal: { x: 0.035, y: 0.5 },
+  metal: { x: 0.01, y: 0.5 },
 };
 
 /** Earth: fraction of the circular art; hang badge up from the inner gold rim. */
@@ -204,28 +204,39 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
           const thin = payload.tendId === b.id && !hot;
           let cx: number;
           let cy: number;
-          let bh: number;
-          let fontSize: number;
           if (b.id === 'earth') {
             cx = artX + EARTH_ART_POS.x * compassInner;
             cy = artY + EARTH_ART_POS.y * compassInner;
-            bh = 20;
-            fontSize = 12;
           } else {
             const pos = OUTER_COMPASS_POS[b.id];
             cx = left + pos.x * compassOuter;
             cy = top + pos.y * compassOuter;
-            bh = 24;
-            fontSize = 14;
           }
+          // Match on-screen Qilin badge size for every direction
+          const bh = 20;
           const label = `${pct}%`;
-          ctx.font = `700 ${fontSize}px system-ui, sans-serif`;
+          ctx.font = '700 12px system-ui, sans-serif';
           const tw = ctx.measureText(label).width;
-          const bw = tw + (b.id === 'earth' ? 12 : 16);
-          // Earth: hang above the rim (same as CSS translate(-50%, -100%))
-          const topY = b.id === 'earth' ? cy - bh : cy - bh / 2;
+          const bw = tw + 12;
+          // Align like CSS: earth hangs up; metal left-edge; wood right-edge; else centered
+          let boxX: number;
+          let topY: number;
+          if (b.id === 'earth') {
+            boxX = cx - bw / 2;
+            topY = cy - bh;
+          } else if (b.id === 'metal') {
+            boxX = cx;
+            topY = cy - bh / 2;
+          } else if (b.id === 'wood') {
+            boxX = cx - bw;
+            topY = cy - bh / 2;
+          } else {
+            boxX = cx - bw / 2;
+            topY = cy - bh / 2;
+          }
+          const midX = boxX + bw / 2;
           const midY = topY + bh / 2;
-          roundRect(ctx, cx - bw / 2, topY, bw, bh, 12);
+          roundRect(ctx, boxX, topY, bw, bh, 12);
           if (hot) {
             ctx.fillStyle = '#5f4b8b';
             ctx.fill();
@@ -249,7 +260,7 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
           }
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText(label, cx, midY + 0.5);
+          ctx.fillText(label, midX, midY + 0.5);
           ctx.textAlign = 'left';
           ctx.textBaseline = 'alphabetic';
         }
