@@ -581,6 +581,7 @@
 }
 
 .bearingCompassArtWrap {
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -603,9 +604,15 @@
   z-index: 1;
 }
 
-/* Sit on the lower rim: badge grows up into the medallion, not onto the Phoenix */
+/* Anchor on inner gold rim; badge hangs up into the gold band under the feet */
 .bearingCompassPoint--earth {
   transform: translate(-50%, -100%);
+  z-index: 2;
+}
+
+.bearingCompassPoint--earth .bearingCompassPct {
+  font-size: clamp(0.62rem, 2.1vw, 0.78rem);
+  padding: 0.1rem 0.38rem;
 }
 
 .bearingCompassPct {

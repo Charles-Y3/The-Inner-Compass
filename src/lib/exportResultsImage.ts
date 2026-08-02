@@ -33,15 +33,16 @@ export interface ResultsExportPayload {
   mirrorNote: string;
 }
 
-/** Same relative layout as BearingCompass (percent of the compass square). */
-const COMPASS_POS: Record<BearingId, { x: number; y: number }> = {
+/** Outer badges: fraction of the padded compass square (matches CSS). */
+const OUTER_COMPASS_POS: Record<Exclude<BearingId, 'earth'>, { x: number; y: number }> = {
   water: { x: 0.5, y: 0.035 },
   wood: { x: 0.965, y: 0.5 },
   fire: { x: 0.5, y: 0.965 },
   metal: { x: 0.035, y: 0.5 },
-  // Lower rim of Qilin medallion; badge is drawn upward from this point
-  earth: { x: 0.5, y: 0.62 },
 };
+
+/** Earth: fraction of the circular art; hang badge up from the inner gold rim. */
+const EARTH_ART_POS = { x: 0.5, y: 0.685 };
 
 function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
   const words = text.split(/\s+/);
@@ -198,17 +199,29 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
         >;
 
         for (const b of BEARINGS) {
-          const pos = COMPASS_POS[b.id];
           const pct = byId[b.id]?.percent ?? 0;
           const hot = payload.primaryIds.includes(b.id);
           const thin = payload.tendId === b.id && !hot;
-          const cx = left + pos.x * compassOuter;
-          const cy = top + pos.y * compassOuter;
+          let cx: number;
+          let cy: number;
+          let bh: number;
+          let fontSize: number;
+          if (b.id === 'earth') {
+            cx = artX + EARTH_ART_POS.x * compassInner;
+            cy = artY + EARTH_ART_POS.y * compassInner;
+            bh = 20;
+            fontSize = 12;
+          } else {
+            const pos = OUTER_COMPASS_POS[b.id];
+            cx = left + pos.x * compassOuter;
+            cy = top + pos.y * compassOuter;
+            bh = 24;
+            fontSize = 14;
+          }
           const label = `${pct}%`;
-          ctx.font = '700 14px system-ui, sans-serif';
+          ctx.font = `700 ${fontSize}px system-ui, sans-serif`;
           const tw = ctx.measureText(label).width;
-          const bw = tw + 16;
-          const bh = 24;
+          const bw = tw + (b.id === 'earth' ? 12 : 16);
           // Earth: hang above the rim (same as CSS translate(-50%, -100%))
           const topY = b.id === 'earth' ? cy - bh : cy - bh / 2;
           const midY = topY + bh / 2;

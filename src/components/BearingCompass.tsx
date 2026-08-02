@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { BEARINGS, type BearingId, type BearingMixItem } from '../data/bearings';
 import { useT } from '../i18n/useT';
 
@@ -7,19 +8,57 @@ interface BearingCompassProps {
   tendId?: BearingId;
 }
 
-/**
- * Percent badges sit in a padding ring around the art so they do not cover
- * the animal name labels baked into the illustration.
- * North turtle, East dragon, South phoenix, West tiger, Center qilin.
- */
-const POS: Record<BearingId, { x: number; y: number }> = {
+/** N/E/S/W: % of the padded compass box (outer ring). */
+const OUTER_POS: Record<Exclude<BearingId, 'earth'>, { x: number; y: number }> = {
   water: { x: 50, y: 3.5 },
   wood: { x: 96.5, y: 50 },
   fire: { x: 50, y: 96.5 },
   metal: { x: 3.5, y: 50 },
-  // Anchor on the Qilin medallion’s lower rim; badge hangs upward (see CSS)
-  earth: { x: 50, y: 62 },
 };
+
+/**
+ * Earth is positioned inside the art wrap (% of the illustration).
+ * Anchor sits on the inner gold rim; CSS hangs the badge upward into the
+ * thin gold band under the Qilin’s feet — not on the body, not on the Phoenix.
+ */
+const EARTH_ART_POS = { x: 50, y: 68.5 };
+
+function PctBadge({
+  bearingId,
+  animal,
+  pct,
+  hot,
+  thin,
+  className,
+  style,
+}: {
+  bearingId: BearingId;
+  animal: string;
+  pct: number;
+  hot: boolean;
+  thin: boolean;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  return (
+    <div
+      className={[
+        'bearingCompassPoint',
+        `bearingCompassPoint--${bearingId}`,
+        hot ? 'isPrimary' : '',
+        thin ? 'isTend' : '',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      style={style}
+    >
+      <span className="bearingCompassPct" aria-label={`${animal} ${pct}%`}>
+        {pct}%
+      </span>
+    </div>
+  );
+}
 
 export function BearingCompass({ mix, highlightIds, tendId }: BearingCompassProps) {
   const { L, t } = useT();
@@ -27,6 +66,11 @@ export function BearingCompass({ mix, highlightIds, tendId }: BearingCompassProp
     BearingId,
     BearingMixItem
   >;
+
+  const earth = BEARINGS.find((b) => b.id === 'earth')!;
+  const earthPct = byId.earth?.percent ?? 0;
+  const earthHot = highlightIds.includes('earth');
+  const earthThin = tendId === 'earth' && !earthHot;
 
   return (
     <div
@@ -41,30 +85,32 @@ export function BearingCompass({ mix, highlightIds, tendId }: BearingCompassProp
           alt=""
           draggable={false}
         />
+        <PctBadge
+          bearingId="earth"
+          animal={L(earth.animal)}
+          pct={earthPct}
+          hot={earthHot}
+          thin={earthThin}
+          style={{ left: `${EARTH_ART_POS.x}%`, top: `${EARTH_ART_POS.y}%` }}
+        />
       </div>
 
-      {BEARINGS.map((b) => {
-        const pos = POS[b.id];
-        const pct = byId[b.id]?.percent ?? 0;
-        const hot = highlightIds.includes(b.id);
-        const thin = tendId === b.id && !hot;
+      {(Object.keys(OUTER_POS) as Array<keyof typeof OUTER_POS>).map((id) => {
+        const b = BEARINGS.find((x) => x.id === id)!;
+        const pos = OUTER_POS[id];
+        const pct = byId[id]?.percent ?? 0;
+        const hot = highlightIds.includes(id);
+        const thin = tendId === id && !hot;
         return (
-          <div
-            key={b.id}
-            className={[
-              'bearingCompassPoint',
-              `bearingCompassPoint--${b.id}`,
-              hot ? 'isPrimary' : '',
-              thin ? 'isTend' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
+          <PctBadge
+            key={id}
+            bearingId={id}
+            animal={L(b.animal)}
+            pct={pct}
+            hot={hot}
+            thin={thin}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
-          >
-            <span className="bearingCompassPct" aria-label={`${L(b.animal)} ${pct}%`}>
-              {pct}%
-            </span>
-          </div>
+          />
         );
       })}
     </div>
