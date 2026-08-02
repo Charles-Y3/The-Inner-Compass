@@ -8,19 +8,17 @@ interface BearingCompassProps {
   tendId?: BearingId;
 }
 
-/** N/E/S/W: % of the padded compass box (outer ring, clear of the art). */
+/** N/E/S/W: % of the padded compass box (outer ring). E/W nudged slightly out. */
 const OUTER_POS: Record<Exclude<BearingId, 'earth'>, { x: number; y: number }> = {
   water: { x: 50, y: 3.5 },
-  // Further out than N/S — badges are wider than tall
-  wood: { x: 99, y: 50 },
+  wood: { x: 98.5, y: 50 },
   fire: { x: 50, y: 96.5 },
-  metal: { x: 1, y: 50 },
+  metal: { x: 1.5, y: 50 },
 };
 
 /**
- * Earth is positioned inside the art wrap (% of the illustration).
- * Anchor sits on the inner gold rim; CSS hangs the badge upward into the
- * thin gold band under the Qilin’s feet — not on the body, not on the Phoenix.
+ * Earth: % of the illustration (inside art wrap).
+ * Anchor on the inner gold rim; CSS hangs the badge upward into the gold band.
  */
 const EARTH_ART_POS = { x: 50, y: 68.5 };
 

@@ -610,15 +610,6 @@
   z-index: 2;
 }
 
-/* Keep E/W badges fully in the padding ring (they are wider than tall) */
-.bearingCompassPoint--metal {
-  transform: translate(0, -50%);
-}
-
-.bearingCompassPoint--wood {
-  transform: translate(-100%, -50%);
-}
-
 .bearingCompassPct {
   font-variant-numeric: tabular-nums;
   font-size: clamp(0.62rem, 2.1vw, 0.78rem);

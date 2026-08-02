@@ -36,9 +36,9 @@ export interface ResultsExportPayload {
 /** Outer badges: fraction of the padded compass square (matches CSS). */
 const OUTER_COMPASS_POS: Record<Exclude<BearingId, 'earth'>, { x: number; y: number }> = {
   water: { x: 0.5, y: 0.035 },
-  wood: { x: 0.99, y: 0.5 },
+  wood: { x: 0.985, y: 0.5 },
   fire: { x: 0.5, y: 0.965 },
-  metal: { x: 0.01, y: 0.5 },
+  metal: { x: 0.015, y: 0.5 },
 };
 
 /** Earth: fraction of the circular art; hang badge up from the inner gold rim. */
@@ -218,25 +218,11 @@ export async function exportResultsImage(payload: ResultsExportPayload): Promise
           ctx.font = '700 12px system-ui, sans-serif';
           const tw = ctx.measureText(label).width;
           const bw = tw + 12;
-          // Align like CSS: earth hangs up; metal left-edge; wood right-edge; else centered
-          let boxX: number;
-          let topY: number;
-          if (b.id === 'earth') {
-            boxX = cx - bw / 2;
-            topY = cy - bh;
-          } else if (b.id === 'metal') {
-            boxX = cx;
-            topY = cy - bh / 2;
-          } else if (b.id === 'wood') {
-            boxX = cx - bw;
-            topY = cy - bh / 2;
-          } else {
-            boxX = cx - bw / 2;
-            topY = cy - bh / 2;
-          }
-          const midX = boxX + bw / 2;
+          // Earth hangs up from the rim; others are centered on the anchor
+          const topY = b.id === 'earth' ? cy - bh : cy - bh / 2;
+          const midX = cx;
           const midY = topY + bh / 2;
-          roundRect(ctx, boxX, topY, bw, bh, 12);
+          roundRect(ctx, cx - bw / 2, topY, bw, bh, 12);
           if (hot) {
             ctx.fillStyle = '#5f4b8b';
             ctx.fill();
