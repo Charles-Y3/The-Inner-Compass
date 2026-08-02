@@ -17,8 +17,8 @@ const POS: Record<BearingId, { x: number; y: number }> = {
   wood: { x: 96.5, y: 50 },
   fire: { x: 50, y: 96.5 },
   metal: { x: 3.5, y: 50 },
-  // Lower rim of the inner Qilin medallion (art coords ≈ 0.66 → box %)
-  earth: { x: 50, y: 64 },
+  // Inside the Qilin medallion, just above its lower gold rim (clears Phoenix)
+  earth: { x: 50, y: 56.5 },
 };
 
 export function BearingCompass({ mix, highlightIds, tendId }: BearingCompassProps) {

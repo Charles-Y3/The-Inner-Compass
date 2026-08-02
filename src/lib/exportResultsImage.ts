@@ -39,7 +39,7 @@ const COMPASS_POS: Record<BearingId, { x: number; y: number }> = {
   wood: { x: 0.965, y: 0.5 },
   fire: { x: 0.5, y: 0.965 },
   metal: { x: 0.035, y: 0.5 },
-  earth: { x: 0.5, y: 0.64 },
+  earth: { x: 0.5, y: 0.565 },
 };
 
 function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
