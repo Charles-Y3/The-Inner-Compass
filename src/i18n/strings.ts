@@ -18,6 +18,22 @@ export const UI: Record<string, Localized<string>> = {
   settings_theme_night: localized('Night', '夜'),
   settings_reset: localized('Start over', '重新開始'),
   settings_close: localized('Close', '關閉'),
+  settings_app: localized('App', '應用程式'),
+  settings_install: localized('Install app', '安裝應用程式'),
+  settings_install_done: localized('Installed as an app.', '已安裝為應用程式。'),
+  settings_install_ios: localized(
+    'In Safari, tap Share → Add to Home Screen to install.',
+    '在 Safari 中點擊「分享」→「加入主畫面」即可安裝。',
+  ),
+  settings_install_unavailable: localized(
+    "Install isn't available in this browser yet.",
+    '此瀏覽器目前無法安裝。',
+  ),
+  settings_offline_ready: localized('✓ Ready to work offline', '✓ 已可離線使用'),
+  settings_offline_pending: localized('Not yet cached for offline use', '尚未完成離線快取'),
+  update_available: localized('A new version of The Inner Compass is ready.', '內在羅盤有新版本可用。'),
+  update_reload: localized('Reload to update', '重新載入以更新'),
+  update_later: localized('Later', '稍後'),
 
   intro_title: localized('The Inner Compass', '內在羅盤'),
   intro_body: localized(

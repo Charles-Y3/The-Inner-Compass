@@ -3,6 +3,14 @@ import { useSettings, type Theme } from '../state/SettingsContext';
 import { useQuiz } from '../state/QuizContext';
 import { useT } from '../i18n/useT';
 import type { Locale } from '../i18n/types';
+import {
+  subscribePwaInstall,
+  getDeferredInstallPrompt,
+  promptPwaInstall,
+  isStandaloneDisplay,
+  installGuideKind,
+} from '../utils/pwaInstall';
+import { subscribeOfflineReady } from '../utils/offlineReady';
 
 const LOCALE_OPTIONS: { locale: Locale; labelKey: 'langGate_en' | 'langGate_zhHant' | 'langGate_zhHans' }[] = [
   { locale: 'en', labelKey: 'langGate_en' },
@@ -22,6 +30,11 @@ export function SettingsPopover() {
   const { clear: clearQuiz } = useQuiz();
   const { t } = useT();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [installAvailable, setInstallAvailable] = useState(false);
+  const [offlineReady, setOfflineReady] = useState(false);
+
+  useEffect(() => subscribePwaInstall(() => setInstallAvailable(Boolean(getDeferredInstallPrompt()))), []);
+  useEffect(() => subscribeOfflineReady(setOfflineReady), []);
 
   useEffect(() => {
     if (!open) return;
@@ -48,6 +61,9 @@ export function SettingsPopover() {
     resetSettings();
     setOpen(false);
   }
+
+  const standalone = typeof window !== 'undefined' && isStandaloneDisplay();
+  const guide = typeof window !== 'undefined' ? installGuideKind() : 'desktop';
 
   return (
     <div style={{ position: 'relative' }} ref={containerRef}>
@@ -90,6 +106,23 @@ export function SettingsPopover() {
               </button>
             ))}
           </div>
+
+          <div className="popoverLabel">{t('settings_app')}</div>
+          {standalone ? (
+            <p className="popoverHint">{t('settings_install_done')}</p>
+          ) : installAvailable ? (
+            <div className="popoverRow">
+              <button type="button" className="popoverChip popoverChipActive" onClick={() => void promptPwaInstall()}>
+                {t('settings_install')}
+              </button>
+            </div>
+          ) : guide === 'ios' ? (
+            <p className="popoverHint">{t('settings_install_ios')}</p>
+          ) : (
+            <p className="popoverHint">{t('settings_install_unavailable')}</p>
+          )}
+          <p className="popoverHint">{offlineReady ? t('settings_offline_ready') : t('settings_offline_pending')}</p>
+
           <div className="popoverLabel">
             <button className="popoverChip" onClick={handleReset}>
               {t('settings_reset')}

@@ -11,6 +11,11 @@ import '@fontsource/noto-serif-sc/500.css';
 import '@fontsource/noto-serif-sc/600.css';
 import './styles/base.css';
 import App from './App';
+import { registerPwaInstall } from './utils/pwaInstall';
+import { registerPwaUpdates } from './utils/pwaUpdate';
+
+registerPwaInstall();
+registerPwaUpdates();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

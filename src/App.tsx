@@ -4,6 +4,7 @@ import { QuizProvider } from './state/QuizContext';
 import { HistoryProvider } from './state/HistoryContext';
 import { LanguageGate } from './components/LanguageGate';
 import { AppShell } from './components/AppShell';
+import { UpdateBanner } from './components/UpdateBanner';
 import { IntroPage } from './pages/IntroPage';
 import { SelfRatePage } from './pages/SelfRatePage';
 import { QuestionsPage } from './pages/QuestionsPage';
@@ -15,17 +16,20 @@ import { HistoryDetailPage } from './pages/HistoryDetailPage';
 function Shell() {
   const { pathname } = useLocation();
   return (
-    <AppShell fixed={pathname === '/questions'}>
-      <Routes>
-        <Route path="/" element={<IntroPage />} />
-        <Route path="/levels" element={<SelfRatePage />} />
-        <Route path="/questions" element={<QuestionsPage />} />
-        <Route path="/reflect" element={<ReflectPage />} />
-        <Route path="/results" element={<ResultsPage />} />
-        <Route path="/history" element={<HistoryPage />} />
-        <Route path="/history/:id" element={<HistoryDetailPage />} />
-      </Routes>
-    </AppShell>
+    <>
+      <UpdateBanner />
+      <AppShell fixed={pathname === '/questions'}>
+        <Routes>
+          <Route path="/" element={<IntroPage />} />
+          <Route path="/levels" element={<SelfRatePage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
+          <Route path="/reflect" element={<ReflectPage />} />
+          <Route path="/results" element={<ResultsPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/history/:id" element={<HistoryDetailPage />} />
+        </Routes>
+      </AppShell>
+    </>
   );
 }
 
