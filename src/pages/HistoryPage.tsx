@@ -41,8 +41,8 @@ function monthLabel(year: number, month: number, locale: string): string {
 export function HistoryPage() {
   const navigate = useNavigate();
   const { t, L, locale } = useT();
-  const { entries } = useHistory();
-  const { clear, start } = useQuiz();
+  const { entries, removeEntry } = useHistory();
+  const { clear, start, savedEntryId } = useQuiz();
 
   const now = new Date();
   const [viewYear, setViewYear] = useState(now.getFullYear());
@@ -83,6 +83,12 @@ export function HistoryPage() {
     clear();
     start();
     navigate('/levels');
+  }
+
+  function handleDelete(entryId: string) {
+    if (!window.confirm(t('history_deleteConfirm'))) return;
+    removeEntry(entryId);
+    if (savedEntryId === entryId) clear();
   }
 
   return (
@@ -152,7 +158,7 @@ export function HistoryPage() {
             const bearing = getBearing(entry.primaryBearingId);
             const preview = entry.heartNote.feelings.trim().slice(0, 80);
             return (
-              <li key={entry.id}>
+              <li key={entry.id} className="historyItemRow">
                 <button
                   type="button"
                   className="historyItem"
@@ -174,6 +180,23 @@ export function HistoryPage() {
                       {entry.heartNote.feelings.length > 80 ? '…' : ''}
                     </span>
                   )}
+                </button>
+                <button
+                  type="button"
+                  className="historyItemDelete"
+                  aria-label={t('history_delete')}
+                  onClick={() => handleDelete(entry.id)}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none">
+                    <path
+                      d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M8 7v12a1.5 1.5 0 0 0 1.5 1.5h5A1.5 1.5 0 0 0 16 19V7"
+                      stroke="currentColor"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path d="M10.5 11v5M13.5 11v5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+                  </svg>
                 </button>
               </li>
             );

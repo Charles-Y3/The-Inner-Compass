@@ -198,6 +198,8 @@ export const UI: Record<string, Localized<string>> = {
   history_bearing: localized('Bearing: {animal} · {virtue}', '方位：{animal} · {virtue}'),
   history_detailTitle: localized('Check-in · {date}', '檢視 · {date}'),
   history_startNew: localized('Begin a new check-in', '開始新的檢視'),
+  history_delete: localized('Delete this check-in', '刪除此檢視'),
+  history_deleteConfirm: localized('Delete this check-in? This cannot be undone.', '確定刪除此檢視？此操作無法復原。'),
   history_filterAll: localized('All dates', '全部日期'),
   history_filterClear: localized('Clear date filter', '清除日期篩選'),
   history_monthPrev: localized('Previous month', '上個月'),

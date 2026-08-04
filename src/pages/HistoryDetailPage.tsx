@@ -25,8 +25,8 @@ export function HistoryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t, L, locale } = useT();
-  const { getEntry } = useHistory();
-  const { clear, start } = useQuiz();
+  const { getEntry, removeEntry } = useHistory();
+  const { clear, start, savedEntryId } = useQuiz();
   const entry = id ? getEntry(id) : undefined;
 
   if (!entry) {
@@ -57,6 +57,14 @@ export function HistoryDetailPage() {
     clear();
     start();
     navigate('/levels');
+  }
+
+  function handleDelete() {
+    if (!entry) return;
+    if (!window.confirm(t('history_deleteConfirm'))) return;
+    removeEntry(entry.id);
+    if (savedEntryId === entry.id) clear();
+    navigate('/history');
   }
 
   return (
@@ -105,6 +113,9 @@ export function HistoryDetailPage() {
       <div className="buttonRow">
         <Button type="button" variant="secondary" onClick={() => navigate('/history')}>
           {t('history_back')}
+        </Button>
+        <Button type="button" variant="secondary" onClick={handleDelete}>
+          {t('history_delete')}
         </Button>
         <Button onClick={handleNew}>{t('history_startNew')}</Button>
       </div>

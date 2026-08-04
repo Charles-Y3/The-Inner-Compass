@@ -22,6 +22,7 @@ export interface HistoryEntry {
 interface HistoryContextValue {
   entries: HistoryEntry[];
   addEntry: (entry: Omit<HistoryEntry, 'id' | 'createdAt'> & { id?: string; createdAt?: number }) => HistoryEntry;
+  removeEntry: (id: string) => void;
   getEntry: (id: string) => HistoryEntry | undefined;
   latestEntry: HistoryEntry | null;
 }
@@ -83,6 +84,9 @@ export function HistoryProvider({ children }: { children: ReactNode }) {
           return [entry, ...prev].slice(0, MAX_ENTRIES);
         });
         return entry;
+      },
+      removeEntry: (id) => {
+        setEntries((prev) => prev.filter((e) => e.id !== id));
       },
       getEntry: (id) => entries.find((e) => e.id === id),
       latestEntry: entries[0] ?? null,
