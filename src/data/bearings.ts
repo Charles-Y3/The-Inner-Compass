@@ -32,7 +32,7 @@ export const BEARINGS: Bearing[] = [
     order: 1,
     direction: localized('East', '東'),
     element: localized('Wood', '木'),
-    animal: localized('Dragon', '龍'),
+    animal: localized('Green Dragon', '青龍'),
     glyph: '龍',
     virtue: localized('Benevolence', '仁'),
     blurb: localized(
@@ -57,7 +57,7 @@ export const BEARINGS: Bearing[] = [
     order: 2,
     direction: localized('South', '南'),
     element: localized('Fire', '火'),
-    animal: localized('Phoenix', '鳳'),
+    animal: localized('Vermilion Bird', '朱雀'),
     glyph: '鳳',
     virtue: localized('Propriety', '禮'),
     blurb: localized(
@@ -107,7 +107,7 @@ export const BEARINGS: Bearing[] = [
     order: 4,
     direction: localized('West', '西'),
     element: localized('Metal', '金'),
-    animal: localized('Tiger', '虎'),
+    animal: localized('White Tiger', '白虎'),
     glyph: '虎',
     virtue: localized('Righteousness', '義'),
     blurb: localized(
@@ -132,7 +132,7 @@ export const BEARINGS: Bearing[] = [
     order: 5,
     direction: localized('North', '北'),
     element: localized('Water', '水'),
-    animal: localized('Turtle', '龜'),
+    animal: localized('Black Tortoise', '玄武'),
     glyph: '龜',
     virtue: localized('Wisdom', '智'),
     blurb: localized(
