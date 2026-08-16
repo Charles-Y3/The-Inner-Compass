@@ -14,9 +14,11 @@ import { LevelCard } from '../components/LevelCard';
 import { BearingMix } from '../components/BearingMix';
 import { SynthesisCard } from '../components/SynthesisCard';
 import { ShareResultsButton } from '../components/ShareResultsButton';
+import { SaveResultsPrompt } from '../components/SaveResultsPrompt';
 import { Button } from '../components/Button';
 import { useQuiz } from '../state/QuizContext';
 import { useHistory } from '../state/HistoryContext';
+import { useSaveResultsPrompt } from '../hooks/useSaveResultsPrompt';
 import { buildAnimalExportBlocks } from '../lib/exportResultsImage';
 import { buildSynthesis, synthesisVars } from '../lib/synthesis';
 
@@ -46,6 +48,7 @@ export function ResultsPage() {
   } = useQuiz();
   const { addEntry, getEntry } = useHistory();
   const saveLock = useRef(false);
+  const { showPrompt, busy, failed, triggerAfterSave, saveNow, dismiss } = useSaveResultsPrompt();
 
   const depthDone = ASPECTS.every((a) => typeof answers[a.depth.id] === 'number');
   const directionDone = ASPECTS.every((a) => !!directionAnswers[a.id]);
@@ -71,6 +74,7 @@ export function ResultsPage() {
       heartNote,
     });
     markSaved(entry.id);
+    triggerAfterSave();
   }, [
     ready,
     computedLevel,
@@ -81,6 +85,7 @@ export function ResultsPage() {
     totalScore,
     addEntry,
     markSaved,
+    triggerAfterSave,
   ]);
 
   const feedback = useMemo(() => {
@@ -166,6 +171,7 @@ export function ResultsPage() {
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <SaveResultsPrompt open={showPrompt} busy={busy} failed={failed} onSave={saveNow} onDismiss={dismiss} />
       <div className="card">
         <BearingMix
           mix={mixResult.mix}

@@ -13,9 +13,11 @@ import './styles/base.css';
 import App from './App';
 import { registerPwaInstall } from './utils/pwaInstall';
 import { registerPwaUpdates } from './utils/pwaUpdate';
+import { requestPersistentStorage } from './utils/persistStorage';
 
 registerPwaInstall();
 registerPwaUpdates();
+void requestPersistentStorage();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

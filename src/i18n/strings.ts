@@ -9,6 +9,17 @@ export const UI: Record<string, Localized<string>> = {
   langGate_en: localized('English', 'English'),
   langGate_zhHant: localized('繁體中文', '繁體中文'),
   langGate_zhHans: localized('简体中文', '简体中文'),
+  langGate_import: localized('Restore from backup', '從備份還原'),
+  langGate_import_hint: localized(
+    'Lost your data? Restore it from a backup file or your auto-save folder.',
+    '資料遺失了嗎？從備份檔案或自動儲存資料夾還原。',
+  ),
+  langGate_import_invalid: localized(
+    "That doesn't look like a valid backup file.",
+    '備份檔案格式不正確。',
+  ),
+  langGate_import_missing: localized('No backup file found in that folder.', '該資料夾內找不到備份檔案。'),
+  langGate_import_failed: localized('Could not read that backup.', '無法讀取該備份。'),
 
   nav_settings: localized('Settings', '設定'),
   settings_language: localized('Language', '語言'),
@@ -31,6 +42,42 @@ export const UI: Record<string, Localized<string>> = {
   ),
   settings_offline_ready: localized('✓ Ready to work offline', '✓ 已可離線使用'),
   settings_offline_pending: localized('Not yet cached for offline use', '尚未完成離線快取'),
+
+  settings_backup_title: localized('Backup & Restore', '備份與還原'),
+  settings_backup_export: localized('Export backup', '匯出備份'),
+  settings_backup_import: localized('Import backup', '匯入備份'),
+  settings_backup_import_confirm: localized(
+    'Importing will replace your current check-ins and settings. This cannot be undone.',
+    '匯入備份將取代目前的檢視紀錄與設定，且無法復原。',
+  ),
+  settings_backup_import_invalid: localized(
+    "That doesn't look like a valid backup file.",
+    '備份檔案格式不正確。',
+  ),
+  settings_backup_import_missing: localized(
+    'No backup file found in that folder.',
+    '該資料夾內找不到備份檔案。',
+  ),
+  settings_backup_import_failed: localized('Could not read that backup.', '無法讀取該備份。'),
+  settings_backup_folder_title: localized('Auto-save to folder', '自動儲存到資料夾'),
+  settings_backup_folder_enable: localized('Choose folder', '選擇資料夾'),
+  settings_backup_folder_disable: localized('Disable', '停用'),
+  settings_backup_folder_enabled: localized(
+    'Enabled — saving to “{name}”. Each check-in and export overwrites the same file.',
+    '已啟用——儲存到「{name}」。每次檢視與匯出都會覆寫同一個檔案。',
+  ),
+  settings_backup_folder_hint: localized(
+    'Pick a folder on this device — check-ins and exports will auto-save there.',
+    '選擇一個裝置上的資料夾，之後檢視與匯出會自動儲存到那裡。',
+  ),
+  settings_backup_folder_error: localized(
+    "Couldn't access that folder — please try again.",
+    '無法存取該資料夾，請再試一次。',
+  ),
+  settings_backup_export_fallback: localized(
+    'Folder access is no longer available — downloading a file instead.',
+    '資料夾存取已失效，改為下載檔案。',
+  ),
   update_available: localized('A new version of The Inner Compass is ready.', '內在羅盤有新版本可用。'),
   update_reload: localized('Reload to update', '重新載入以更新'),
   update_later: localized('Later', '稍後'),
@@ -71,6 +118,18 @@ export const UI: Record<string, Localized<string>> = {
   reflect_improve: localized('What do I want to improve or tend? (optional)', '想改善或照顧什麼？（可選）'),
   reflect_improve_placeholder: localized('One or two things to tend…', '一兩件想照顧的事……'),
   reflect_continue: localized('See my result', '查看結果'),
+
+  results_save_prompt_title: localized(
+    'Save this check-in outside the browser?',
+    '要將這次檢視儲存到瀏覽器之外嗎？',
+  ),
+  results_save_prompt_save: localized('Save', '儲存'),
+  results_save_prompt_saving: localized('Saving…', '儲存中……'),
+  results_save_prompt_dismiss: localized('Not now', '稍後'),
+  results_save_prompt_error: localized(
+    'Folder access is no longer available — downloaded a file instead.',
+    '資料夾存取已失效，已改為下載檔案。',
+  ),
 
   results_yourStage: localized('Your stage', '你的階段'),
   results_synthesis_title: localized('In summary', '總結'),
